@@ -1,8 +1,8 @@
 package tiptop
 
 import (
+	"encoding/json"
 	"fmt"
-	"github.com/niubaoshu/gotiny"
 	"testing"
 )
 
@@ -20,7 +20,7 @@ func TestTipTop_Get(t *testing.T) {
 	insertData(tip)
 	out := make(map[string]string)
 	bytes, err := tip.Get("key1")
-	gotiny.Unmarshal(bytes, &out)
+	_ = json.Unmarshal(bytes, &out)
 	if err != nil {
 		fmt.Println(err.Error())
 		return
@@ -45,7 +45,7 @@ func TestTipTop_Delete(t *testing.T) {
 	}
 	out = make(map[string]string)
 	bytes, err := tip.Get("key")
-	gotiny.Unmarshal(bytes, &out)
+	_ = json.Unmarshal(bytes, &out)
 	if err != nil {
 		fmt.Println(err.Error())
 		return
@@ -68,7 +68,7 @@ func TestTipTop_Reset(t *testing.T) {
 	if err != nil {
 		fmt.Println(err.Error())
 	} else {
-		gotiny.Unmarshal(bytes, &out)
+		_ = json.Unmarshal(bytes, &out)
 	}
 	fmt.Printf("输出：%v\n", out)
 
@@ -77,7 +77,7 @@ func TestTipTop_Reset(t *testing.T) {
 	if err != nil {
 		fmt.Println(err.Error())
 	} else {
-		gotiny.Unmarshal(bytes, &out)
+		_ = json.Unmarshal(bytes, &out)
 	}
 	fmt.Printf("输出：%v", out)
 }
@@ -109,7 +109,7 @@ func insertData(t *TipTop) {
 		"key1": "value1",
 		"key2": "value12",
 	}
-	bytes := gotiny.Marshal(&value)
+	bytes, _ := json.Marshal(&value)
 	_ = t.Set("key1", bytes)
 	_ = t.Set("key2", bytes)
 }
